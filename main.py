@@ -1,8 +1,6 @@
 import flet as ft
-import sys
-import os
+import time
 
-# Usamos la estructura básica de Flet sin agregar botones ni cajas para evitar fallos de diseño
 def main(page: ft.Page):
     page.title = "Conector Iglesia"
     
@@ -11,13 +9,12 @@ def main(page: ft.Page):
     PUERTO = "8550"
     url_servidor = f"http://{IP_SERVIDOR}:{PUERTO}"
     
-    # CORREGIDO: Usamos la función nativa de Flet para ordenar a Android abrir Chrome/Safari
+    # Ordena a Android abrir de forma inmediata Google Chrome o el navegador nativo
     page.launch_url(url_servidor)
-    import time
-    # Mantenemos la aplicación abierta 3 segundos para darle tiempo a Android de procesar el enlace
+    
+    # Le damos 3 segundos al teléfono para procesar la apertura de la página
     time.sleep(3)
-    page.window.close()
-
-# Punto de arranque compatible con el empaquetador móvil actual
+    page.window_close()
+# Cierre del archivo usando el formato obligatorio del empaquetador de Android
 if __name__ == "__main__":
     ft.app(target=main)
