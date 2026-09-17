@@ -1,0 +1,44 @@
+name: Compilar APK Iglesia
+on:
+  push:
+    branches: [ principal, main ] # Funciona en cualquier nombre de rama
+
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Configurar Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.x'
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar Dependencias de Python
+        run: |
+          python -m pip install --upgrade pip
+          pip install flet[cli]
+          pip install -r requirements.txt
+
+      - name: Compilar Aplicación Android (.apk) de forma silenciosa
+        run: |
+          export FLUTTER_NO_INTERACTIVE=true
+          # Comando limpio adaptado a la nueva versión de flet-cli
+          flet build apk . --no-version-check
+
+      - name: Guardar Instalador Listo
+        uses: actions/upload-artifact@v4
+        with:
+          name: App_Iglesia_Celular
+          path: build/apk/*.apk
