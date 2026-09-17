@@ -14,8 +14,7 @@ def main(page: ft.Page):
     def abrir_sistema(e):
         page.launch_url(url_servidor)
         page.window.close()
-    # CORREGIDO: En lugar de un botón tradicional, creamos un contenedor interactivo universal.
-    # Esto simula un botón perfecto usando texto centrado y una caja de color, siendo 100% compatible.
+    # Contenedor interactivo universal. Simula un botón perfecto usando texto centrado.
     boton_fijo_universal = ft.Container(
         content=ft.Row([
             ft.Icon(ft.Icons.WIFI, color=ft.Colors.WHITE),
@@ -43,5 +42,6 @@ def main(page: ft.Page):
         )
     )
 
+# CORREGIDO: Reemplazado ft.run(main) por ft.app(target=main) exigido por Flet 0.86.5+
 if __name__ == "__main__":
-    ft.run(main)
+    ft.app(target=main)
