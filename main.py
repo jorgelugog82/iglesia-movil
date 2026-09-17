@@ -13,19 +13,19 @@ def main(page: ft.Page):
     # Función que redirige al navegador del teléfono celular apuntando a la PC
     def abrir_sistema(e):
         page.launch_url(url_servidor)
-        # Cierra la pequeña app conector de apoyo para liberar recursos
         page.window.close()
-
-    # CORREGIDO: Usamos ft.ElevatedButton que garantiza compatibilidad nativa con 'text' e 'icon'
-    btn_conectar = ft.ElevatedButton(
-        text="Conectar al Servidor",
-        icon=ft.Icons.WIFI,
-        on_click=abrir_sistema,
+    # CORREGIDO: En lugar de un botón tradicional, creamos un contenedor interactivo universal.
+    # Esto simula un botón perfecto usando texto centrado y una caja de color, siendo 100% compatible.
+    boton_fijo_universal = ft.Container(
+        content=ft.Row([
+            ft.Icon(ft.Icons.WIFI, color=ft.Colors.WHITE),
+            ft.Text("Conectar al Servidor", color=ft.Colors.WHITE, weight=ft.FontWeight.BOLD, size=16)
+        ], alignment=ft.MainAxisAlignment.CENTER, spacing=10),
+        bgcolor=ft.Colors.BLUE_900,
+        padding=15,
+        border_radius=10,
         width=280,
-        style=ft.ButtonStyle(
-            color=ft.Colors.WHITE, 
-            bgcolor=ft.Colors.BLUE_900
-        )
+        on_click=abrir_sistema  # Hace que toda la caja azul sea presionable
     )
 
     page.add(
@@ -34,8 +34,8 @@ def main(page: ft.Page):
                 ft.Icon(ft.Icons.CHURCH_ROUNDED, size=80, color=ft.Colors.BLUE_900),
                 ft.Text("Sistema de Salones", size=24, weight=ft.FontWeight.BOLD, color=ft.Colors.BLUE_900),
                 ft.Text("Presiona el botón para conectar con el servidor central de la PC", size=14, color=ft.Colors.GREY_600, text_align=ft.TextAlign.CENTER),
-                ft.Container(height=20),
-                btn_conectar
+                ft.Container(height=25),
+                boton_fijo_universal
             ], alignment=ft.MainAxisAlignment.CENTER, horizontal_alignment=ft.CrossAxisAlignment.CENTER),
             alignment=ft.alignment.center,
             padding=40,
