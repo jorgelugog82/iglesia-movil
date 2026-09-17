@@ -1,20 +1,39 @@
-import flet as ft
-import time
+name: Compilar APK Iglesia Definitivo
+on:
+  push:
+    branches: [ principal, main ]
 
-def main(page: ft.Page):
-    page.title = "Conector Iglesia"
-    
-    # Dirección IP local del Servidor Central de tu iglesia (tu PC)
-    IP_SERVIDOR = "192.168.0.111" 
-    PUERTO = "8550"
-    url_servidor = f"http://{IP_SERVIDOR}:{PUERTO}"
-    
-    # Ordena a Android abrir de forma inmediata Google Chrome o el navegador nativo
-    page.launch_url(url_servidor)
-    
-    # Le damos 3 segundos al teléfono para procesar la apertura de la página
-    time.sleep(3)
-    page.window_close()
-# Cierre del archivo usando el formato obligatorio del empaquetador de Android
-if __name__ == "__main__":
-    ft.app(target=main)
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar Flet Limpiando Caché
+        run: |
+          python -m pip install --upgrade pip
+          # Forzamos la instalación limpia de la versión móvil estable de flet
+          pip install --no-cache-dir flet[cli]
+          pip install --no-cache-dir -r requirements.txt
+
+      - name: Compilar Aplicación Android (.apk)
+        run: |
+          export FLUTTER_NO_INTERACTIVE=true
+          echo "y" | flet build apk
+
+      - name: Guardar Instalador Listo
+        uses: actions/upload-artifact@v4
+        with:
+          name: App_Iglesia_Celular
+          path: build/apk/*.apk
