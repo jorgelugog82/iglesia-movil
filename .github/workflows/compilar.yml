@@ -1,7 +1,7 @@
 name: Compilar APK Iglesia
 on:
   push:
-    branches: [ principal, main ] # Funciona en cualquier nombre de rama
+    branches: [ principal, main ]
 
 jobs:
   construir:
@@ -34,8 +34,8 @@ jobs:
       - name: Compilar Aplicación Android (.apk) de forma silenciosa
         run: |
           export FLUTTER_NO_INTERACTIVE=true
-          # Comando limpio adaptado a la nueva versión de flet-cli
-          flet build apk . --no-version-check
+          # CORREGIDO: Comando en su estado más puro y limpio sin banderas adicionales
+          flet build apk
 
       - name: Guardar Instalador Listo
         uses: actions/upload-artifact@v4
