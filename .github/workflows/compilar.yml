@@ -15,10 +15,10 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Configurar Flutter SDK
+      - name: Configurar Flutter SDK Exacto
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.x'
+          flutter-version: '3.24.5' # Forzamos la versión estable esperada por Flet
 
       - name: Configurar Python 3.11
         uses: actions/setup-python@v5
@@ -31,12 +31,14 @@ jobs:
           pip install flet[cli]
           pip install -r requirements.txt
 
-      - name: Compilar Aplicación Android (.apk) de forma silenciosa
+      - name: Compilar Aplicación Android (.apk) Autoconfirmada
         run: |
           export FLUTTER_NO_INTERACTIVE=true
-          # CORREGIDO: Comando en su estado más puro y limpio sin banderas adicionales
-          flet build apk
-
+          export PUB_HOSTED_URL=https://dartlang.org
+          
+          # TRUCO MAESTRO: 'echo "y"' responde automáticamente "Sí" a cualquier pregunta de la consola
+          echo "y" | flet build apk
+          
       - name: Guardar Instalador Listo
         uses: actions/upload-artifact@v4
         with:
