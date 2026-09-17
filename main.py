@@ -4,7 +4,8 @@ import sys
 
 def main(page: ft.Page):
     page.title = "Salones Iglesia - Móvil"
-    page.padding = 0  # Sin márgenes para aprovechar toda la pantalla del celular
+    # Sin márgenes para aprovechar el 100% de la pantalla del celular
+    page.padding = 0  
     
     # IP del Servidor Central de tu iglesia (tu PC)
     IP_SERVIDOR = "192.168.0.111" 
@@ -12,9 +13,9 @@ def main(page: ft.Page):
     
     url_servidor = f"http://{IP_SERVIDOR}:{PUERTO}"
     
-    # Creamos un visor web nativo de pantalla completa para el celular
-    webview = ft.WebView(
-        url_servidor,
+    # CORREGIDO: Usamos CupertinoWebView que es el nuevo estándar compatible con móviles en Flet moderno
+    webview = ft.CupertinoWebView(
+        url=url_servidor,
         expand=True,
     )
     
