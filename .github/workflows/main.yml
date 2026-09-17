@@ -1,7 +1,7 @@
 name: Compilar APK Iglesia
 on:
   push:
-    branches: [ principal ] # Detecta tu rama llamada 'principal'
+    branches: [ principal ]
 
 jobs:
   construir:
@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Configurar Java y Entorno Android
+      - name: Configurar Java 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
@@ -20,20 +20,23 @@ jobs:
         with:
           flutter-version: '3.24.x'
 
-      - name: Configurar Python
+      - name: Configurar Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Instalar Dependencias de Python y Flet
+      - name: Instalar Dependencias de Python
         run: |
           python -m pip install --upgrade pip
+          pip install flet[cli]
           pip install -r requirements.txt
 
-      - name: Compilar Aplicación Android (.apk)
+      - name: Compilar Aplicación Android (.apk) de forma silenciosa
         run: |
-          # El punto '.' le indica a Flet que compile todo el directorio actual
-          flet build apk . --no-version-check
+          # Activamos el modo no interactivo global de Flutter para que no pida confirmaciones en la nube
+          export flutter_no_interactive=true
+          # Compilamos el directorio actual forzando a flet a no pedir clics de teclado
+          flet build apk . --no-version-check --release
 
       - name: Guardar Instalador Listo
         uses: actions/upload-artifact@v4
