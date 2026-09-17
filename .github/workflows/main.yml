@@ -1,22 +1,40 @@
 name: Compilar APK Iglesia
 on:
   push:
-    branches: [ main ]
+    branches: [ principal ] # Detecta tu rama llamada 'principal'
+
 jobs:
-  build:
+  construir:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Configurar Java y Flutter
+
+      - name: Configurar Java y Entorno Android
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Configurar Flutter SDK
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.22.x' # Versión estable compatible con Flet
-      - name: Instalar Python y Flet
+          flutter-version: '3.24.x'
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar Dependencias de Python y Flet
         run: |
-          pip install flet
-      - name: Crear Aplicación Android (.apk)
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Compilar Aplicación Android (.apk)
         run: |
-          flet build apk --icon logo.png
+          # El punto '.' le indica a Flet que compile todo el directorio actual
+          flet build apk . --no-version-check
+
       - name: Guardar Instalador Listo
         uses: actions/upload-artifact@v4
         with:
