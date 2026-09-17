@@ -5,24 +5,27 @@ import os
 def main(page: ft.Page):
     page.title = "Salones Iglesia - Conector"
     
-    # IP del Servidor Central de tu iglesia (tu PC)
+    # Dirección IP local del Servidor Central de tu iglesia (tu PC)
     IP_SERVIDOR = "192.168.0.111" 
     PUERTO = "8550"
     url_servidor = f"http://{IP_SERVIDOR}:{PUERTO}"
     
-    # Función que abre el navegador del celular apuntando a la PC
+    # Función que redirige al navegador del teléfono celular apuntando a la PC
     def abrir_sistema(e):
         page.launch_url(url_servidor)
-        # Cierra la pequeña app conector de apoyo para no gastar recursos
+        # Cierra la pequeña app conector de apoyo para liberar recursos
         page.window.close()
 
-    # CORREGIDO: Usamos ft.Icons.WIFI que es un icono nativo universal garantizado
-    btn_conectar = ft.Button(
+    # CORREGIDO: Usamos ft.ElevatedButton que garantiza compatibilidad nativa con 'text' e 'icon'
+    btn_conectar = ft.ElevatedButton(
         text="Conectar al Servidor",
         icon=ft.Icons.WIFI,
         on_click=abrir_sistema,
         width=280,
-        style=ft.ButtonStyle(color=ft.Colors.WHITE, bgcolor=ft.Colors.BLUE_900)
+        style=ft.ButtonStyle(
+            color=ft.Colors.WHITE, 
+            bgcolor=ft.Colors.BLUE_900
+        )
     )
 
     page.add(
