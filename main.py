@@ -1,5 +1,6 @@
 import flet as ft
 import sys
+import time
 
 def main(page: ft.Page):
     page.title = "Conector Iglesia"
@@ -17,7 +18,21 @@ def main(page: ft.Page):
     # Función nativa móvil gatillada por acción del usuario
     def ejecutar_enlace(e):
         page.launch_url(url_servidor)
-    # Diseñamos una tarjeta limpia que le indica al usuario qué hacer
+        time.sleep(2)
+        page.window.close()
+    # Contenedor interactivo universal simulando un botón nativo
+    boton_fijo_universal = ft.Container(
+        content=ft.Row([
+            ft.Icon(ft.Icons.WIFI, color=ft.Colors.WHITE),
+            ft.Text("CONECTAR AHORA", color=ft.Colors.WHITE, weight=ft.FontWeight.BOLD, size=16)
+        ], alignment=ft.MainAxisAlignment.CENTER, spacing=10),
+        bgcolor=ft.Colors.BLUE_900,
+        padding=15,
+        border_radius=10,
+        width=260,
+        on_click=ejecutar_enlace  # Gatilla la apertura autorizada por Android
+    )
+
     page.add(
         ft.Icon(ft.Icons.CHURCH_ROUNDED, size=80, color=ft.Colors.BLUE_900),
         ft.Text("Control de Salones", size=24, weight=ft.FontWeight.BOLD, color=ft.Colors.BLUE_900),
@@ -28,20 +43,9 @@ def main(page: ft.Page):
             text_align=ft.TextAlign.CENTER
         ),
         ft.Container(height=15),
-        # Contenedor interactivo universal simulando un botón nativo
-        ft.Container(
-            content=ft.Row([
-                ft.Icon(ft.Icons.WIFI, color=ft.Colors.WHITE),
-                ft.Text("CONECTAR AHORA", color=ft.Colors.WHITE, weight=ft.FontWeight.BOLD)
-            ], alignment=ft.MainAxisAlignment.CENTER, spacing=10),
-            bgcolor=ft.Colors.BLUE_900,
-            padding=15,
-            border_radius=10,
-            width=260,
-            on_click=ejecutar_enlace  # Gatilla la apertura autorizada por Android
-        )
+        boton_fijo_universal
     )
 
-# Sintaxis de arranque nativa oficial para empaquetadores Android modernos
+# CORREGIDO: Sintaxis de arranque nativa oficial para empaquetadores Android modernos
 if __name__ == "__main__":
-    ft.run(main)
+    ft.app(target=main)
