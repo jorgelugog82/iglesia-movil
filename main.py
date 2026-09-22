@@ -45,7 +45,6 @@ def main(page: ft.Page):
         boton_fijo_universal
     )
 
-# CORREGIDO: Sintaxis de arranque nativa simplificada en su estado más puro exigido por serious_python
+# CORREGIDO: Formato de cierre explícito y puro exigido por serious_python en Android
 if __name__ == "__main__":
-    ft.app(main)
-    
+    ft.app(target=main)
