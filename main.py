@@ -1,5 +1,4 @@
 import flet as ft
-import sys
 import time
 
 def main(page: ft.Page):
@@ -46,6 +45,7 @@ def main(page: ft.Page):
         boton_fijo_universal
     )
 
-# CORREGIDO: Sintaxis de arranque nativa oficial para empaquetadores Android modernos
+# CORREGIDO: Sintaxis de arranque nativa simplificada en su estado más puro exigido por serious_python
 if __name__ == "__main__":
-    ft.app(target=main)
+    ft.app(main)
+    
