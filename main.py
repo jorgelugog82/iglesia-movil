@@ -7,17 +7,17 @@ def main(page: ft.Page):
     page.theme_mode = ft.ThemeMode.LIGHT
     page.padding = 30
 
-    # IP de tu PC Servidor Central
+    # Dirección IP local de tu PC Servidor Central
     IP_SERVIDOR = "192.168.0.111" 
     PUERTO = "8550"
     url_servidor = f"http://{IP_SERVIDOR}:{PUERTO}"
 
     def abrir_sistema_interno(e):
-        # 'web_view=True' obliga a Android a cargar el sistema adentro de la misma app
-        # de la iglesia en pantalla completa, sin saltar jamás hacia Google Chrome.
+        # web_view=True le ordena a Flet abrir la IP de la PC de forma incrustada
+        # ocupando el 100% de la pantalla adentro de la misma app de la iglesia.
         page.launch_url(url_servidor, web_view=True)
 
-    # Diseñamos un botón elegante usando la sintaxis nativa de la versión 0.21.0
+    # Botón compatible con la versión estable 0.22.0
     btn_conectar = ft.ElevatedButton(
         text="INGRESAR AL SISTEMA",
         icon=ft.icons.CHURCH,
