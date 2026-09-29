@@ -15,6 +15,12 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      # REPARADO: Añadimos la descarga oficial del SDK de Flutter requerida por Flet
+      - name: Configurar Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.x' # Versión ideal compatible con Flet 0.22.0
+
       - name: Configurar Python 3.11
         uses: actions/setup-python@v5
         with:
@@ -23,7 +29,6 @@ jobs:
       - name: Instalar Flet Estable Fijo
         run: |
           python -m pip install --upgrade pip
-          # Obligamos a instalar exactamente la versión 0.21.0 configurada
           pip install --no-cache-dir -r requirements.txt
 
       - name: Compilar Aplicación Android (.apk)
